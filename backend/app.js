@@ -6,7 +6,7 @@ const path = require('path');
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
-mongoose.connect('mongodb+srv://FirstUser:824658NG@cluster0.xp0aq.mongodb.net/Sopekocko?retryWrites=true&w=majority',
+mongoose.connect(process.env.MONGO_ENV,
   { useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
