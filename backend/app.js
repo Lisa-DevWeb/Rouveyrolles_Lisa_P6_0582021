@@ -1,12 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const path = require('path');
+const path = require('path'); //donne acccès au chemin du systeme de fichier
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
-mongoose.connect(process.env.MONGO_ENV,
+mongoose.connect('mongodb+srv://FirstUser:824658NG@cluster0.xp0aq.mongodb.net/Sopekocko?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -25,7 +25,7 @@ mongoose.connect(process.env.MONGO_ENV,
 
   app.use(bodyParser.json());
 
-  app.use('/images', express.static(path.join(__dirname, 'images')));
+  app.use('/images', express.static(path.join(__dirname, 'images'))); //Sert le dossier statique images
 
   app.use('/api/sauces', sauceRoutes);
   app.use('/api/auth', userRoutes);  

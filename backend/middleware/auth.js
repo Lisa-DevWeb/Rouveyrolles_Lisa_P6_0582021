@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken'); //Verification token
 
+//Middleware d'authentification
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
@@ -15,4 +16,4 @@ module.exports = (req, res, next) => {
       error: new Error('Requête non authentifiée')
     });
   }
-};
+}; //Extraire le token du header Authorization de la requête entrante. Contenant le mot-clé Bearer, utlisation de la fonction split pour récupérer tout après l'espace dans le header. Utilisation de la fonction verify pour décoder le token et extraction de l'ID user. Si la demande contient un ID user, on compare à celui extrait du token. 
