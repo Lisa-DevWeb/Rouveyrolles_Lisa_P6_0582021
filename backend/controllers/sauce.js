@@ -7,9 +7,9 @@ exports.createSauce = (req, res, next) => {
   delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`//Genere url de l'image
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,//Genere url de l'image
   });
-  sauce.save()
+  sauce.save() //Renvoie une promesse
     .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
     .catch(error => res.status(400).json({ error }));
 };
@@ -26,7 +26,7 @@ exports.modifySauce = (req, res, next) => {
 }; //Création d'un sauceObject qui regarde si req.file existe ou non. S'il existe, la nouvelle image est traitée sinon l'objet entrant est traité 
 
 exports.deleteSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
+  Sauce.findOne({ _id: req.params.id }) //Récupération d'une sauce spécifique ayant le même _id que le paramètre de la requête. La sauce est ensuite retournée dans une promesse et envoyée au front-end 
     .then(sauce => {
       const filename = sauce.imageUrl.split('/images/')[1];
       fs.unlink(`images/${filename}`, () => {
@@ -45,7 +45,7 @@ exports.getOneSauce = (req, res, next) => {
 };
 
 exports.getAllSauces = (req, res, next) => {
-  Sauce.find()
+  Sauce.find() //Methode renvoie un tableau contenant toutes les sauces dans la base de données
     .then(sauces => res.status(200).json(sauces))
     .catch(error => res.status(400).json({ error }));
 };
