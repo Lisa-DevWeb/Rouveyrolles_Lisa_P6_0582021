@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser'); //Gérer la demande POST provenant de l'application front-end, permet l'extraction de l'objet JSON de la demande
 const path = require('path'); //Donne acccès au chemin du systeme de fichier
 require('dotenv').config() //charger la variable d'environnement
+const helmet = require("helmet");
 
 const sauceRoutes = require('./routes/sauce'); //Importation du Router
 const userRoutes = require('./routes/user');
@@ -17,6 +18,7 @@ mongoose.connect('mongodb+srv://FirstUser:824658NG@cluster0.xp0aq.mongodb.net/So
   .catch(() => console.log('Connexion à MongoDB échoué !'));
 
   const app = express(); //Création d'une application express
+  app.use(helmet()); //Helmet est une collection de plusieurs middleware qui définissent des en-têtes HTTP liés à la sécurité
 
   //Middleware qui permet l'envoie de requête et d'accéder à l'API 
   app.use((req, res, next) => {

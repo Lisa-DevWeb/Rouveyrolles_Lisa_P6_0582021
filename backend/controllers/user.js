@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');//Créer et vérifier les tokens d'authentif
 const User = require('../models/User');
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
+    bcrypt.hash(req.body.password, 10) //Combien de fois on execute l'algorythme de hashage
       .then(hash => {
         const user = new User({
           email: req.body.email,
@@ -15,8 +15,8 @@ exports.signup = (req, res, next) => {
           .catch(error => res.status(400).json({ error }));
       })  //Recuperation du hash du mdp qu'on va enregistrer dans un nouvel user, ensuite enregistré dans la base de donnée
       .catch(error => res.status(500).json({ error }));
-  }; //Hacher le mdp , fonction asynchrone , avec le h créé par bcrypt on enregistre le user dans la base de donnée. Combien de fois on execute l'algorythme de hashage
-  //Fonction signup qui va crypter le mdp, prend le mdp crytpé et créé un nouveau user avec ce mdp crypté et passer l'adresse mail dans le corps de la requete et va enregistrer l'utilisateur dans la base de donnée = logique de signup. bcrypt sait quand deux hash différents ont été produits à partir du même string d'origine
+  };
+  //Fonction asynchrone signup qui va crypter le mdp, prend le mdp crytpé et créé un nouveau user avec ce mdp crypté, et passe l'adresse mail dans le corps de la requete et va enregistrer l'utilisateur dans la base de donnée. bcrypt sait quand deux hash différents ont été produits à partir du même string d'origine
   
   //Vérifier que l'e-mail entré par l'utilisateur correspond à un utilisateur existant de la base de donnée
   exports.login = (req, res, next) => {
