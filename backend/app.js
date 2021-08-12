@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser'); //Gérer la demande POST provenant de l'application front-end, permet l'extraction de l'objet JSON de la demande
 const path = require('path'); //Donne acccès au chemin du systeme de fichier
+require('dotenv').config() //charger la variable d'environnement
 
 const sauceRoutes = require('./routes/sauce'); //Importation du Router
 const userRoutes = require('./routes/user');

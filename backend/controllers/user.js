@@ -36,7 +36,7 @@ exports.signup = (req, res, next) => {
               userId: user._id, //Envoie d'une réponse 200 contenant l'ID user et un token
               token: jwt.sign( //Encode un nouveau Token
                 { userId: user._id },
-                'RANDOM_TOKEN_SECRET', //Chaîne secrète de développement temporaire pour encoder le token(à remplacer par une chaîne aléatoire beaucoup plus longue pour la production) 
+                process.env.TOKEN_SECRET_KEY, //Chaîne secrète de développement temporaire pour encoder le token(à remplacer par une chaîne aléatoire beaucoup plus longue pour la production) 
                 { expiresIn: '24h' } //Durée de validité 
               )
             });
