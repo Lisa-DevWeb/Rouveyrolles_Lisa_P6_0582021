@@ -3,7 +3,7 @@ var passwordValidator = require('password-validator');
 var mdpSchema = new passwordValidator();
 
 mdpSchema 
-.is().min(8)                                    // Longueyr minimale : 8
+.is().min(8)                                    // Longueur minimale : 8
 .is().max(100)                                  // Longueur maximale : 100
 .has().uppercase()                              // Doit contenir des lettres majuscules
 .has().lowercase()                              // Doit contenir des lettres minuscules
