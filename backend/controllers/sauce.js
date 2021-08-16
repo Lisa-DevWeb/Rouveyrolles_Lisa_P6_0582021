@@ -1,15 +1,15 @@
-//Stocker logique métier
+//Stocker logique métier et implémentation des routes CRUD
 const Sauce = require('../models/sauce');
 const fs = require('fs');
 
 exports.createSauce = (req, res, next) => {
-  const sauceObject = JSON.parse(req.body.sauce); //req.body.sauce sera un objet JS sous forme chaîne de caratère 
-  delete sauceObject._id;
-  const sauce = new Sauce({
-    ...sauceObject,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,//Genere url de l'image
+  const sauceObject = JSON.parse(req.body.sauce); //req.body.sauce sera un objet JS sous forme chaîne de caractère 
+  delete sauceObject._id; //Suppression de l'id envoyé par le front, car MongoDB en génère un automatiquement
+  const sauce = new Sauce({ //Creation d'une nouvelle instance du modèle Sauce, auquelle on passe un objet qui va contenir toutes les informations requises
+    ...sauceObject, //L'opérateur spread copie tous les éléments de req.body
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,//Génère l'url de l'image
   });
-  sauce.save() //Renvoie une promesse
+  sauce.save() //Enregistre l'objet dans la base de données et renvoie une promesse
     .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
     .catch(error => res.status(400).json({ error }));
 };
@@ -19,8 +19,8 @@ exports.modifySauce = (req, res, next) => {
     {
       ...JSON.parse(req.body.sauce), //Récupération de toutes les informations sur l'objet 
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body }; //Si req.file n'existe pas, on prend le corps de la requete
-  Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id }) //Prend l'objet créé et modification de son id pour correspondre à l'id des parametres de requete
+    } : { ...req.body }; //Si req.file n'existe pas, on prend le corps de la requête
+  Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id }) //Prend l'objet créé et modification de son id pour correspondre à l'id des paramètres de requête
     .then(() => res.status(200).json({ message: 'Objet modifié !'}))
     .catch(error => res.status(400).json({ error }));
 }; //Création d'un sauceObject qui regarde si req.file existe ou non. S'il existe, la nouvelle image est traitée sinon l'objet entrant est traité 
@@ -39,14 +39,14 @@ exports.deleteSauce = (req, res, next) => {
 }; //Utilisation de l'Id reçu en paramètre pour accéder à la sauce correspondante dans la base de donnée. L'url d'image contient un segment /images/ pour séparer le nom du fichier. Utilisation de la fonction unlink pour supprimer le fichier. Dans le callback, supression de la sauce dans la base de donnée
 
 exports.getOneSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
-    .then(sauce => res.status(200).json(sauce))
+  Sauce.findOne({ _id: req.params.id }) //Methode pour trouver une sauce unique, ayant le même id que le paramètre de la requête
+    .then(sauce => res.status(200).json(sauce)) //La sauce est retournée dans une promesse envoyée au front
     .catch(error => res.status(404).json({ error }));
 };
 
 exports.getAllSauces = (req, res, next) => {
   Sauce.find() //Methode renvoie un tableau contenant toutes les sauces dans la base de données
-    .then(sauces => res.status(200).json(sauces))
+    .then(sauces => res.status(200).json(sauces)) 
     .catch(error => res.status(400).json({ error }));
 };
 
@@ -81,7 +81,7 @@ exports.likeSauce = (req, res, next) => {
   }
 
   if (like === 0) { //Annulation d'un like ou dislike
-    //Methode findOne pour trouver la sauce unique ayant le même id que le parametre de la requête
+    //Methode findOne pour trouver la sauce unique ayant le même id que le paramètre de la requête
     Sauce.findOne({_id: sauceId})  
       .then((sauce) => {
         if (sauce.usersLiked.find(user => user === userId)) { //Si l'utilisateur annule un like
@@ -93,14 +93,14 @@ exports.likeSauce = (req, res, next) => {
 
             .then(() => res.status(200).json({ message: "Like annulé !"}))
             .catch(error => res.status(400).json({ error }));
-        }//Fin  IF
+        }
 
         if(sauce.usersDisliked.find(user => user === userId)) { //Si l'utilisateur annule un dislike
           Sauce.updateOne(
             {_id: sauceId},
             { $pull: { usersDisliked: userId},
               $inc: { likes: -1 } //Décréménte de 1
-            })//Fin updateOne
+            })
 
             .then(() => res.status(200).json({ message: "Dislike annulé !"}))
             .catch(error => res.status(400).json({ error }));
@@ -109,7 +109,7 @@ exports.likeSauce = (req, res, next) => {
       })
       .catch((error) => res.status(404).json({ error }))
 
-  }//Fin IF
+  }
 
 };
 

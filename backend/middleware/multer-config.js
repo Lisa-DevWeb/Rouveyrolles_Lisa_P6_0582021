@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
     const name = file.originalname.split(' ').join('_');
     const extension = MIME_TYPES[file.mimetype];
     callback(null, name + Date.now() + '.' + extension);
-  } //Indique à multer d'utiliser le nom d'origine, de remplacer les espaces par des underscores et d'ajouter un timestamp comme nom de fichier
+  } //Indique à multer d'utiliser le nom d'origine, de remplacer les espaces par des underscores et d'ajouter un timestamp comme nom de fichier. La fonction utilise la constante dictionnaire de type MIME pour résoudre l'extension de fichier appropriée
 }); //Objet de configuration pour multer. Fonction diskStorage pour enregistrer dans le disque 
 
-module.exports = multer({storage: storage}).single('image'); //Importation de multer et indique qu'on gère uniquement les telechargements de fichiers image
+module.exports = multer({storage: storage}).single('image'); //Importation de multer et indique qu'on gère uniquement les téléchargements de fichiers image

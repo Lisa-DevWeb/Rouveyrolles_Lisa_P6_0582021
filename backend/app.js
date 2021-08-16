@@ -1,6 +1,6 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser'); //Gérer la demande POST provenant de l'application front-end, permet l'extraction de l'objet JSON de la demande
+const mongoose = require('mongoose'); //facilite les interactions avec la base de données
+const bodyParser = require('body-parser'); //Gérer la demande POST provenant de l'application front-end, permet l'extraction de l'objet JSON de la demande(rendre le corps de la reqûete exploitable)
 const path = require('path'); //Donne acccès au chemin du systeme de fichier
 require('dotenv').config() //charger la variable d'environnement
 const helmet = require("helmet");
@@ -9,7 +9,7 @@ const sauceRoutes = require('./routes/sauce'); //Importation du Router
 const userRoutes = require('./routes/user');
 
 //Connection de l'API au cluster mongoDB
-mongoose.connect('mongodb+srv://FirstUser:824658NG@cluster0.xp0aq.mongodb.net/Sopekocko?retryWrites=true&w=majority',
+mongoose.connect(process.env.DB_CO,
   { useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -20,20 +20,22 @@ mongoose.connect('mongodb+srv://FirstUser:824658NG@cluster0.xp0aq.mongodb.net/So
   const app = express(); //Création d'une application express
   app.use(helmet()); //Helmet est une collection de plusieurs middleware qui définissent des en-têtes HTTP liés à la sécurité
 
-  //Middleware qui permet l'envoie de requête et d'accéder à l'API 
+  //Middleware sont des fonctions qui capturent et traitent les reqûetes envoyées vers le serveur
+  
+  //Middleware appliqué à toutes les routes, permettant l'envoie de requête et d'accéder à l'API 
   app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    next();
+    res.setHeader('Access-Control-Allow-Origin', '*'); //Accès à l'API depuis n'importe quelle origine
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'); //Ajout des headers mentionnés vers l'API
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); //Envoie de requête avec les méthodes mentionnées
+    next(); 
   });
 
-  app.use(bodyParser.json());
+  app.use(bodyParser.json()); //Transformer le corps de la requête en objet JS utilisable
 
-  app.use('/images', express.static(path.join(__dirname, 'images'))); //Sert le dossier statique images
+  app.use('/images', express.static(path.join(__dirname, 'images'))); //Sert le dossier statique image
 
-  app.use('/api/sauces', sauceRoutes);
-  app.use('/api/auth', userRoutes);  
+  app.use('/api/sauces', sauceRoutes); //Enregistrement du routeur pour toutes les demandes effectuées vers /api/sauces
+  app.use('/api/auth', userRoutes); //La racine de toutes les routes liées à l'authentification ; attendu par le front
 
   module.exports = app; //Permet l'accès depuis les autres fichiers, notamment le serveur Node 
 

@@ -7,6 +7,6 @@ const userSchema = mongoose.Schema({
     password: { type: String, require: true }
 });
 
-userSchema.plugin(uniqueValidator); //Appliquer validator au schema avant d'en faire un modele. Impossible d'avoir plusieurs utilisateurs inscris avec le meme email
+userSchema.plugin(uniqueValidator); //Appliquer validator au schema avant d'en faire un modèle. Impossible d'avoir plusieurs utilisateurs inscrits avec la même adresse e-mail
 
 module.exports = mongoose.model('User', userSchema);

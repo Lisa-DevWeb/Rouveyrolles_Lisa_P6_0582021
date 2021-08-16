@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-//Creation schema de donnée. Un modèle de donné qui permet d'enregistrer, lire, modifier les objets qui sont en vente dans la base de donnée
+//Creation schema de donnée. Un modèle de donnée qui permet d'enregistrer, lire et modifier les objets qui sont en vente dans la base de donnée
 const sauceSchema = mongoose.Schema({
     userId: {type: String, required: true},
     name: {type: String, required: true},
