@@ -3,12 +3,12 @@ var passwordValidator = require('password-validator');
 var mdpSchema = new passwordValidator();
 
 mdpSchema 
-.is().min(8)                                    // Minimum length 8
-.is().max(100)                                  // Maximum length 100
-.has().uppercase()                              // Must have uppercase letters
-.has().lowercase()                              // Must have lowercase letters
-.has().digits(2)                                // Must have at least 2 digits
-.has().not().spaces()                           // Should not have spaces
-.is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
+.is().min(8)                                    // Longueyr minimale : 8
+.is().max(100)                                  // Longueur maximale : 100
+.has().uppercase()                              // Doit contenir des lettres majuscules
+.has().lowercase()                              // Doit contenir des lettres minuscules
+.has().digits(2)                                // Doit avoir au moins 2 chiffres
+.has().not().spaces()                           // Ne devrait pas avoir d'espaces
+.is().not().oneOf(['Passw0rd', 'Password123']); // Blacklister ces valeurs
 
 module.exports = mdpSchema;
