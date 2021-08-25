@@ -23,3 +23,5 @@ Pour démarrer les serveurs, veuillez exécuter ces commandes :
 - Via le terminal sur le frontend : npm start
 - Via le terminal sur le backend : node server
 
+Connection API au cluster MongoDB : Veuillez me demander les identifiants et mots de passe
+
