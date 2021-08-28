@@ -88,7 +88,7 @@ exports.likeSauce = (req, res, next) => {
           Sauce.updateOne(
             {_id: sauceId},
             { $pull: { usersLiked: userId},
-              $inc: { likes: +1 } //Décréménte de 1
+              $inc: { likes: +1 } //Incrémente de 1
             })
 
             .then(() => res.status(200).json({ message: "Like annulé !"}))

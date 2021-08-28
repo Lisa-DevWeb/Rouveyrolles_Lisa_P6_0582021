@@ -47,4 +47,4 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
-server.listen(port); //Ecouteur d'évènement, consignant le port nommé sur lequel le serveur s'exécute dans la console
+server.listen(port); //Ecouteur d'évènement, consignant le port nommé sur lequel le serveur s'exécute dans la console. Ecoute et attend les requêtes envoyées
